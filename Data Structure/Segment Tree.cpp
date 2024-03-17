@@ -1,7 +1,7 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>          // --> Bismillahir_ Rahmanir_ Rahim <--
+#define ll long long 
 using namespace std;
 
-#define ll long long
 #define lc  (n << 1)
 #define rc  (n << 1) + 1
 #define mid ((s + e) >> 1)
