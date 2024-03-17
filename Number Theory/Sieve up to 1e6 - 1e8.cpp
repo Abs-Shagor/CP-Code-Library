@@ -1,4 +1,12 @@
-////////// 	== > Basic Sieve ? < ==  
+/*
+
+Let, prime factor of N is = P1^e1 * P2^e2 * P3^e3
+*1 > divisors count = (e1+1)*(e2+1)*(e3+1)
+*2 > summation of all divisor of N  = ( pow(P1,(e1+1))-1 / (P1-1) ) * ( pow(P2,(e2+1))-1 / (P2-1) ) * ( pow(P3,(e3+1))-1 / (P3-1) )
+
+*/
+
+////////// 	== > Basic Sieve up to 1e6 or 1e7 ? < ==  
 const ll N = 1e7+7;
 vector<bool>isprime(N,true);
 vector<ll> primeList;
@@ -18,7 +26,7 @@ void sieve() {
     }
 }
 
-////////// 	== > more powerfull sieve  up to 1e8* ? < ==  
+////////// 	== > sieve  up to 1e8 ? < ==  
 const int N = 1e8 + 9; 
 const int mxprm = 6e6 + 9; //max number of primes
 
