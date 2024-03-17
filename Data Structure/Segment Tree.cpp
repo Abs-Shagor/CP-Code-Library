@@ -13,7 +13,7 @@ ll combine(ll a, ll b) { // ki lagbe(Answer) ?
     return (a+b);
 }
 void build(ll n, ll s, ll e) {
-    lazy[n] = -1; // here
+    lazy[n] = 0; // here
     if (s == e) {
         t[n] = arr[s]; // here
         return;
@@ -23,21 +23,21 @@ void build(ll n, ll s, ll e) {
     t[n] = combine(t[lc] , t[rc]); // :)
 }
 void push(ll n, ll s, ll e) {
-    if (lazy[n] == -1) return;
+    if (lazy[n] == 0) return;
 
-    t[n] = (e-s+1)*lazy[n]; // here (update operation)
+    t[n] += (e-s+1)*lazy[n]; // here (update operation)
 
     if (s != e) {
-        lazy[lc] = lazy[n]; // here 
-        lazy[rc] = lazy[n]; // here
+        lazy[lc] += lazy[n]; // here 
+        lazy[rc] += lazy[n]; // here
     }
-    lazy[n] = -1;
+    lazy[n] = 0;
 }
 void update(ll n, ll s, ll e, ll l, ll r, ll x) {
     push(n, s, e);
     if (r < s || e < l) return;
     if (l <= s && e <= r) {
-        lazy[n] =  x; // here
+        lazy[n] +=  x; // here
         push(n, s, e);
         return;
     }
@@ -57,20 +57,18 @@ int main() {
     cin.tie(0);
 
     ll n,q; cin >> n >> q;
-    for(ll i=1 ; i<=n ; i++) cin >> arr[i];
+    for(ll i=1 ; i<=n ; i++) arr[i] = 0;
 
     build(1,1,n);
     
     while(q--) {
         ll qs; cin >> qs;
         if(qs==1) {
-            ll pos,x; cin >> pos >> x;
-            ++pos;
-            update(1,1,n,pos,pos,x);
+            ll L,R,x; cin >> L >> R >> x;
+            update(1,1,n,L,R,x);
         }
         else {
             ll L,R; cin >> L >> R;
-            ++L;
             cout << query(1,1,n,L,R) << "\n";
         }
     }
