@@ -3,7 +3,7 @@
 #define ll long long 
 using namespace std;
 
-const ll N = 2e5 + 9;
+const ll N = 4e5 + 9;
 const ll p1 = 137, mod1 = 1e9 + 7, p2 = 277, mod2 = 1e9 + 9;
 
 ll power(ll n, ll k, ll mod) {
@@ -31,19 +31,6 @@ void prec() {
         ipw[i].first = 1LL * ipw[i - 1].first * ip1 % mod1;
         ipw[i].second = 1LL * ipw[i - 1].second * ip2 % mod2;
     }
-}
-
-pair<ll,ll> get_string_hash(string str) {
-    ll n = str.size();
-    pair<ll,ll> hs({0, 0});
-    for (ll i=0 ; i<n ; i++) {
-        hs.first += 1LL * str[i] * pw[i].first % mod1;
-        hs.first %= mod1;
-        hs.second += 1LL * str[i] * pw[i].second % mod2;
-        hs.second %= mod2;
-    }
-    //Here,we can return a single value(hs.ff*mod2+hs.ss) or a pair
-    return hs;
 }
 
 pair<ll,ll> pref[N];
@@ -95,16 +82,34 @@ ll compare(const string &str, ll i, ll j, ll x, ll y) { // O(log n)
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
+    
+    // prec();
 
     // string str; cin >> str;
-    // prec();
     // build(str);
-    // compare(str,1st-string-start,1st-end,2nd-start,2nd-end)
+    // lcp(1st_sub_string_start,1st_sub_string_end,2nd_sub_start,2nd_sub_string_end);
+    // compare(str,1st_sub_string_start,1st_sub_string_end,2nd_sub_start,2nd_sub_string_end)
+
+
+    
+    // ll n; cin >> n;
+    // string str; cin >> str;
+        
+    // string strx = str;
+    // reverse(strx.begin(),strx.end());
+    // str += strx;
+    // build(str);
+    // // L, R   (1 based index)
+    // ll L,R; cin >> L >> R;
+    // if(get_substring_hash(L-1,R-1)==get_substring_hash(2*n-R,2*n-L)) {
+    //     cout << "Palindrome" << "\n";
+    // }
+    // else {
+    //     cout << "Not a Palindrome" << "\n";
+    // }
 
     return 0;
 }
-
-
 
 /*
 
