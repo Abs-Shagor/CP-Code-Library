@@ -79,17 +79,32 @@ ll cross(point p,point q) {
 }
 double triangle_area(point A, point B, point C) {
     // Here, we initiate the point A in origin.
-    B = B-A;
-    C = C-A;
-    return fabs(cross(B,C)/2);
+    point AB = B-A;
+    point AC = C-A;
+    return fabs(cross(AB,AC)/2);
 }
-ll orient(point A, point B, point C) {
-    B = B-A;
-    C = C-A;
-    return cross(B,C);
-    // if,cross product = 0, then A,B,C are in same line
-    //                  > 0, then it will be clockwise move from A -> B -> C (Left)
-    //                  < 0, then it will be anti clockwise move from A -> B -> C (Right)
+ll on_line(point A, point B, point C) {
+    point AB = B-A;
+    point AC = C-A;
+    return cross(AB,AC);
+    // if,cross product = 0, then A,B,C are in same line(on line)
+    //                  > 0, then it will be clockwise move from A -> B to C (Left)
+    //                  < 0, then it will be anti clockwise move from A -> B to C (Right)
+}
+bool on_segment(point A, point B, point P) {
+    if(on_line(A,B,P)==0) {
+        point AP = P-A;
+        point BP = P-B;
+        if(dot(AP,BP)<=0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        return false;
+    }
 }
 
 int main() {
