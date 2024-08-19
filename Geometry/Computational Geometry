@@ -81,10 +81,15 @@ double triangle_area(point A, point B, point C) {
     // Here, we initiate the point A in origin.
     B = B-A;
     C = C-A;
-    return abs(cross(B,C)/2);
-    // if, area or the cross product = 0, then A,B,C are in same line
-    //          > 0, then it will be clockwise move from A -> B -> C
-    //          < 0, then it will be anti clockwise move from A -> B -> C
+    return fabs(cross(B,C)/2);
+}
+ll orient(point A, point B, point C) {
+    B = B-A;
+    C = C-A;
+    return cross(B,C);
+    // if,cross product = 0, then A,B,C are in same line
+    //                  > 0, then it will be clockwise move from A -> B -> C (Left)
+    //                  < 0, then it will be anti clockwise move from A -> B -> C (Right)
 }
 
 int main() {
