@@ -1,0 +1,156 @@
+///////////////// -> Computational Geometry <- //////////////
+///------------------------------------------------------///
+
+#include<bits/stdc++.h>          // --> Bismillahir_ Rahmanir_ Rahim <--
+#define ll long long 
+using namespace std;
+
+// 1. precession check
+double eps = 1e-6;
+ll sign(double x) {
+    if(fabs(x)<eps) {
+        return 0; // both are equal.
+    }
+    else if(x>0) {
+        return 1; // first one is greater.
+    }
+    else {
+        return -1;// first one is smaller.
+    }
+}
+// 2. Always think, point as a vector.
+struct point{
+    double x,y;
+    point(double x=0, double y=0) { // point p(x,y). here, p is the point name
+        this -> x = x;
+        this -> y = y;
+    }
+
+    // here, (x,y) is left point and p is right point.
+    point operator+(point p) {
+        return point(x+p.x, y+p.y);
+    }
+    point operator-(point p) {
+        return point(x-p.x, y-p.y);
+    }
+    // here, (x,y) is the point and z is an integer. ex. 3*(2i + 3j) = (6i + 9j)
+    point operator*(ll z) {
+        return point(x*z, y*z);
+    }
+    point operator/(ll z) { // ex. (2i + 6j)/2 = (i + 3j)
+        return point(x/z, y/z);
+    }
+    bool operator==(point p) { // for integers point
+        return (x==p.x && y==p.y);
+    }
+    // bool operator==(point p) { // for floating point
+    //     return (sign(x-p.x)==0 && sign(y-p.y)==0);
+    // }
+    bool operator<(point p) { // for integers point
+        if(x==p.x) {
+            return y<p.y;
+        }
+        else {
+            return x<p.x;
+        }
+    }
+    // bool operator<(point p) { // for floating point
+    //     if(sign(x==p.x)==0) {
+    //         return sign(y-p.y)==-1;
+    //     }
+    //     else {
+    //         return sign(x-p.x)==-1;
+    //     }
+    // }
+
+    double len() {
+        return sqrt(x*x + y*y);
+    }
+};
+
+double degree(double rediant) {
+    return (rediant*57.2958); // as, 1 radiant = 57.2958 degree
+}
+ll dot(point p, point q) {
+    return ((p.x*q.x) + (p.y*q.y));
+}
+ll cross(point p,point q) {
+    return ((p.x*q.y) - (q.x*p.y));
+}
+double triangle_area(point A, point B, point C) {
+    // Here, we initiate the point A in origin.
+    B = B-A;
+    C = C-A;
+    return abs(cross(B,C)/2);
+    // if, area or the cross product = 0, then A,B,C are in same line
+    //          > 0, then it will be clockwise move from A -> B -> C
+    //          < 0, then it will be anti clockwise move from A -> B -> C
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    // #1..............
+    double x = 3.323333;
+    double y = 3.323333;
+    if(sign(x-y)==0) {
+        cout << "equal" << "\n";
+    }
+    else if(sign(x-y)==1) {
+        cout << "x is greater then y" << "\n";
+    }
+    else {
+        cout << "x is smaller then y" << "\n";
+    }
+
+    // #2.................
+    point p(1,1);
+    point q(3,4);
+    point r(1,5);
+
+    point a = p+q;
+    point b = p-q;
+    point m = (p+q)/2;// mid point of point p and q
+    double c = p.len();// distance between origin(0,0) and point p.
+    double d = (p-q).len();// distance between point p and q.
+
+    cout << a.x << " " << a.y << "\n";
+    cout << b.x << " " << b.y << "\n";
+    cout << m.x << " " << m.y << "\n";
+    cout << c << "\n";
+    cout << d << "\n";
+
+    // Dot Product.
+    // p' . q' = |p|*|q|*cos($)
+    // Here, p'.q' = (p.x*q.x + p.y*q.y)
+    // if p'.q' or dot(p,q) = 0, then, p and q are vertical.
+    //                      > 0, they are in the same side.
+    //                      < 0, they are in the different side.
+    double $ = acos( dot(p,q)/(p.len()*q.len()) );
+    cout << degree($) << endl;
+
+    // Cross Product.
+    // p' x q' = |p'|*|q'|*sin($)
+    // Here,p' x q' = (p.x*q.y - q.x*p.y)
+    // p' x q' = 0, they are parallel to each other.
+    //         > 0, we move from p' to q', mean clockwise
+    //         < 0, anti-clockwise
+    // p' x q' is nothing but the 2*area of the region(middle portion of p',q' and (p-q)')
+    // so, the portion area = (p' x q')/2 (take the absolute value as it can +/-)
+
+    cout << cross(p,q);
+
+    // ll n; cin >> n;
+    // point a[n+7];
+    // for(ll i=1 ; i<=n ; i++) {
+    //     double x,y; cin >> x >> y;
+    //     a[i] = {x,y};
+    // }
+    // sort(a+1,a+n+1);
+    // for(ll i=1 ; i<=n ; i++) {
+    //     cout << a[i].x << " " << a[i].y << endl;
+    // }
+
+    return 0;
+}
