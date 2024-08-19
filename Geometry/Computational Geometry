@@ -5,6 +5,11 @@
 #define ll long long 
 using namespace std;
 
+// use long double for larger float number
+//#define double long double
+
+//#define lll __int128_t 
+
 // 1. precession check
 double eps = 1e-6;
 ll sign(double x) {
@@ -20,8 +25,8 @@ ll sign(double x) {
 }
 // 2. Always think, point as a vector.
 struct point{
-    double x,y;
-    point(double x=0, double y=0) { // point p(x,y). here, p is the point name
+    ll x,y;
+    point(ll x=0, ll y=0) { // point p(x,y). here, p is the point name
         this -> x = x;
         this -> y = y;
     }
@@ -37,7 +42,7 @@ struct point{
     point operator*(ll z) {
         return point(x*z, y*z);
     }
-    point operator/(ll z) { // ex. (2i + 6j)/2 = (i + 3j)
+    point operator/(ll z) { // ex. (2i + 6j)/2 = (i + 3j) // check ->Fraction
         return point(x/z, y/z);
     }
     bool operator==(point p) { // for integers point
@@ -77,12 +82,7 @@ ll dot(point p, point q) {
 ll cross(point p,point q) {
     return ((p.x*q.y) - (q.x*p.y));
 }
-double triangle_area(point A, point B, point C) {
-    // Here, we initiate the point A in origin.
-    point AB = B-A;
-    point AC = C-A;
-    return fabs(cross(AB,AC)/2);
-}
+
 ll orient(point A, point B, point C) {
     point AB = B-A;
     point AC = C-A;
@@ -131,7 +131,27 @@ bool intersect(point A, point B, point C, point D) { // segment AB and CD
         }
     }
 }
-
+double triangle_area(point A, point B, point C) {// for learning purpose
+    // Here, we initiate the point A in origin.
+    point AB = B-A;
+    point AC = C-A;
+    return fabs(cross(AB,AC)/(double)2);
+}
+double polygon_area(vector<point>&vp) {
+    ll z = 0;
+    for(ll i=0 ; i<vp.size() ; i++) {
+        if(i==vp.size()-1) {
+            z += cross(vp[i],vp[0]);
+        }
+        else {
+            z += cross(vp[i],vp[i+1]);
+        }
+    }
+    double ans = fabs((double)z/2);
+    return ans;
+    // use setprecession(d) for better result
+    // if possible always try to use integer or long long int type
+}
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
