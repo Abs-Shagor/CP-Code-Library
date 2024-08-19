@@ -83,16 +83,24 @@ double triangle_area(point A, point B, point C) {
     point AC = C-A;
     return fabs(cross(AB,AC)/2);
 }
-ll on_line(point A, point B, point C) {
+ll orient(point A, point B, point C) {
     point AB = B-A;
     point AC = C-A;
     return cross(AB,AC);
-    // if,cross product = 0, then A,B,C are in same line(on line)
+    // if,cross product = 0, then A,B,C are in same line/on line/Touch
     //                  > 0, then it will be clockwise move from A -> B to C (Left)
     //                  < 0, then it will be anti clockwise move from A -> B to C (Right)
 }
+bool on_line(point A, point B, point P) {
+    if(orient(A,B,P)==0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 bool on_segment(point A, point B, point P) {
-    if(on_line(A,B,P)==0) {
+    if(on_line(A,B,P)) {
         point AP = P-A;
         point BP = P-B;
         if(dot(AP,BP)<=0) {
@@ -104,6 +112,23 @@ bool on_segment(point A, point B, point P) {
     }
     else {
         return false;
+    }
+}
+bool intersect(point A, point B, point C, point D) { // segment AB and CD
+    if(on_segment(A,B,C) || on_segment(A,B,D) || on_segment(C,D,A) || on_segment(C,D,B)) {
+        return true;
+    }
+    else {
+        ll a = orient(A,B,C);
+        ll b = orient(A,B,D);
+        ll c = orient(C,D,A);
+        ll d = orient(C,D,B);
+        if( ((a<0 && b>0)||(a>0 && b<0)) && ((c<0 && d>0)||(c>0 && d<0))) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 
