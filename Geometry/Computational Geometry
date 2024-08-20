@@ -131,26 +131,61 @@ bool intersect(point A, point B, point C, point D) { // segment AB and CD
         }
     }
 }
-double triangle_area(point A, point B, point C) {// for learning purpose
+ll triangle_area_2x(point A, point B, point C) {// for learning purpose
     // Here, we initiate the point A in origin.
     point AB = B-A;
     point AC = C-A;
-    return fabs(cross(AB,AC)/(double)2);
+    ll z = cross(AB,AC);
+    return abs(z);
 }
-double polygon_area(vector<point>&vp) {
-    ll z = 0;
-    for(ll i=0 ; i<vp.size() ; i++) {
-        if(i==vp.size()-1) {
-            z += cross(vp[i],vp[0]);
+ll polygon_area_2x(vector<point>&vp) {
+    ll z = 0, n = vp.size();
+    for(ll i=0 ; i<n ; i++) {
+        ll j = (i+1)%n;
+        z += cross(vp[i],vp[j]);
+    }
+    return abs(z);
+}
+ll convex_point_check(vector<point>&vp, point P) { // For learning purpose
+    ll n = vp.size();
+    ll p_area_2x = polygon_area_2x(vp);
+    ll sum_of_t_area_2x = 0, ok = 0;
+    for(ll i=0 ; i<n ; i++) {
+        ll j = (i+1)%n;
+        ll z = triangle_area_2x(P,vp[i],vp[j]);
+        sum_of_t_area_2x += z;
+        if(z==0) ok = 1;
+    }
+    if(p_area_2x==sum_of_t_area_2x) {
+        if(ok) {
+            return 0; // point P is on the Boundary of the polygon vp
         }
         else {
-            z += cross(vp[i],vp[i+1]);
+            return 1; // inside
         }
     }
-    double ans = fabs((double)z/2);
-    return ans;
-    // use setprecession(d) for better result
-    // if possible always try to use integer or long long int type
+    else {
+        return -1; // outside
+    }
+}
+ll polygin_point_check(vector<point>&vp,point P) { // for both Convex & Concave
+    ll n = vp.size();
+    point end_point(INT_MAX,INT_MAX+1);
+    ll cnt = 0, ok = 0;
+    for(ll i=0 ; i<n ; i++) {
+        ll j = (i+1)%n;
+        if(on_segment(vp[i],vp[j],P)) ok = 1;
+        if(intersect(vp[i],vp[j],P,end_point)) ++cnt;
+    }
+    if(ok) {
+        return 0; // point P is on the boundary of the polygon vp.
+    }
+    else if(cnt&1) {
+        return 1; // inside
+    }
+    else {
+        return -1; // outside
+    }
 }
 int main() {
     ios::sync_with_stdio(false);
