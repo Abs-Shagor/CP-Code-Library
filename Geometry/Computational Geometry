@@ -88,8 +88,9 @@ ll orient(point A, point B, point C) {
     point AC = C-A;
     return cross(AB,AC);
     // if,cross product = 0, then A,B,C are in same line/on line/Touch
-    //                  > 0, then it will be clockwise move from A -> B to C (Left)
-    //                  < 0, then it will be anti clockwise move from A -> B to C (Right)
+    //                  > 0, then it will be clockwise move from A -> B to C (Left) / Anti-Clockwise
+    //                  < 0, then it will be anti clockwise move from A -> B to C (Right) / Clockwise
+
 }
 bool on_line(point A, point B, point P) {
     if(orient(A,B,P)==0) {
@@ -168,7 +169,7 @@ ll convex_point_check(vector<point>&vp, point P) { // For learning purpose
         return -1; // outside
     }
 }
-ll polygin_point_check(vector<point>&vp,point P) { // for both Convex & Concave
+ll polygon_point_check(vector<point>&vp,point P) { // for both Convex & Concave
     ll n = vp.size();
     point end_point(INT_MAX,INT_MAX+1);
     ll cnt = 0, ok = 0;
@@ -186,6 +187,56 @@ ll polygin_point_check(vector<point>&vp,point P) { // for both Convex & Concave
     else {
         return -1; // outside
     }
+}
+/// ***Picks Formula: A = i + (b/2) - 1
+/// Here, A = polygon Area, i = number of lattice point inside the polygon.
+///       b = number of lattice point are on the boundary of the polygon.
+/// a Point is called lattice point if it's x and y coordinate are integer.
+/// Let, two point are A and B. So, the slope of the two point is nothing but 
+/// how many move we do in x and y axis to reach from point A to point B.
+ll cnt_of_lattice_point_on_segment(point A, point B) {
+    ll xs = abs(B.x - A.x);
+    ll ys = abs(B.y - A.y);
+    return __gcd(xs,ys)+1;
+}
+ll cnt_of_lattice_point_on_boundary_of_polygon(vector<point>&vp) {
+    ll ans = 0, n = vp.size();
+    for(ll i=0 ; i<n ; i++) {
+        ll j = (i+1)%n;
+        ans += cnt_of_lattice_point_on_segment(vp[i],vp[j]);
+    }
+    ans -= n; // removing overcount
+    return ans;
+}
+ll cnt_of_lattice_point_inside_polygon(vector<point>&vp) {
+    // using picks Formula: A = i + (b/2) - 1
+    ll A = polygon_area_2x(vp)/2;
+    ll b =  cnt_of_lattice_point_on_boundary_of_polygon(vp);
+    ll i = A+1-(b/2);
+    return i;
+}
+
+vector<point> convex_Hull_point(vector<point>&vp) {
+    ll n = vp.size();
+    sort(vp.begin(),vp.end());
+    vector<point>uh;
+    for(ll i=0 ; i<n ; i++) {
+        while(uh.size()>1 && orient(uh[uh.size()-2],uh[uh.size()-1],vp[i])>0) uh.pop_back();
+        uh.push_back(vp[i]);
+    }
+    vector<point>lh;
+    for(ll i=n-1 ; i>=0 ; i--) {
+        while(lh.size()>1 && orient(lh[lh.size()-2],lh[lh.size()-1],vp[i])>0) lh.pop_back();
+        lh.push_back(vp[i]);
+    }
+    vector<point>ans;
+    for(ll i=0 ; i<uh.size() ; i++) {
+        ans.push_back(uh[i]);
+    }
+    for(ll i=1 ; i<lh.size()-1 ; i++) {
+        ans.push_back(lh[i]);
+    }
+    return ans;
 }
 int main() {
     ios::sync_with_stdio(false);
