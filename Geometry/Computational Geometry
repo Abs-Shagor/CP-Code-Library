@@ -88,9 +88,8 @@ ll orient(point A, point B, point C) {
     point AC = C-A;
     return cross(AB,AC);
     // if,cross product = 0, then A,B,C are in same line/on line/Touch
-    //                  > 0, then it will be clockwise move from A -> B to C (Left) / Anti-Clockwise
-    //                  < 0, then it will be anti clockwise move from A -> B to C (Right) / Clockwise
-
+    //                  > 0, then it will move from A -> B to C Anti-Clockwise (Left). 
+    //                  < 0, then it will move from A -> B to C Clockwise(Right).
 }
 bool on_line(point A, point B, point P) {
     if(orient(A,B,P)==0) {
