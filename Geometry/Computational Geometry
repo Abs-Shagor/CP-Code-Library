@@ -146,7 +146,7 @@ ll polygon_area_2x(vector<point>&vp) {
     }
     return abs(z);
 }
-ll convex_point_check(vector<point>&vp, point P) { // For learning purpose
+ll convex_point_check(vector<point>&vp, point P) { // For Convex, TC = [ O(n) ]  (Learning Purpose)
     ll n = vp.size();
     ll p_area_2x = polygon_area_2x(vp);
     ll sum_of_t_area_2x = 0, ok = 0;
@@ -168,7 +168,29 @@ ll convex_point_check(vector<point>&vp, point P) { // For learning purpose
         return -1; // outside
     }
 }
-ll polygon_point_check(vector<point>&vp,point P) { // for both Convex & Concave
+ll polygon_point_check_x(vector<point>&vp, point p) { // For Covex,  TC = [ O(logn) ]
+    ll n =vp.size();
+    ll a = orient(vp[0],vp[1],p), b = orient(vp[0],vp[n-1],p);
+    if (a > 0 || b < 0) return -1;
+    ll L = 1, R = n - 1;
+    while (L + 1 < R) {
+        ll mid = (L + R)/2;
+        if(orient(vp[0],vp[mid],p) < 0) {
+            L = mid;
+        }
+        else {
+            R = mid;
+        }
+    }
+    ll z =orient(vp[L],vp[R],p);
+    if(z>0) return -1;
+    if(z==0 || (L == 1 && a == 0) || (R == n - 1 && b == 0)) return 0;
+    return 1;
+    // -1 : outside
+    //  0 : on boundary
+    //  1 : inside
+}
+ll polygon_point_check(vector<point>&vp,point P) { // for both Convex & Concave, TC = [ O(n) ]
     ll n = vp.size();
     point end_point(INT_MAX,INT_MAX+1);
     ll cnt = 0, ok = 0;
