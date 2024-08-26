@@ -10,6 +10,8 @@ using namespace std;
 
 //#define lll __int128_t 
 
+#define pi acos(-1)
+
 // 1. precession check
 double eps = 1e-6;
 ll sign(double x) {
