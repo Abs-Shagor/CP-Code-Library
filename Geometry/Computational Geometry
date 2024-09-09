@@ -13,7 +13,7 @@ using namespace std;
 #define pi acos(-1)
 
 // 1. precession check
-double eps = 1e-6;
+double eps = 1e-9;
 ll sign(double x) {
     if(fabs(x)<eps) {
         return 0; // both are equal.
@@ -131,6 +131,23 @@ bool intersect(point A, point B, point C, point D) { // segment AB and CD
         else {
             return false;
         }
+    }
+}
+point intersection_point(point a, point b, point c, point d) {// intersection point of 2 segment
+    double a1 = a.y-b.y, b1 = b.x-a.x, c1 = cross(a,b);       // take point as double
+    double a2 = c.y-d.y, b2 = d.x-c.x, c2 = cross(c,d);
+    double det = a1*b2 - a2*b1;
+
+    if(det==0) {
+        if(fabs(a1*b2 - a2*b1)<eps && fabs(a1*c2 - a2*c1)<eps && fabs(b1*c2 - b2*c1)<eps) {
+            return {1e18, 1e18};// if the given segment are in same line or there is lot of intersection point
+        }
+        else {
+            return {-1e18, -1e18};// if the given segment are parallel but not in same line
+        }
+    }
+    else {
+        return {(b1*c2 - b2*c1)/det, (c1*a2 - a1*c2)/det};//only one intersection point
     }
 }
 ll triangle_area_2x(point A, point B, point C) {// for learning purpose
