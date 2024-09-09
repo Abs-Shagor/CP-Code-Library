@@ -50,6 +50,9 @@ struct point{
     bool operator==(point p) { // for integers point
         return (x==p.x && y==p.y);
     }
+    bool operator!=(point p) { // for integers point
+        return (x!=p.x || y!=p.y);
+    }
     // bool operator==(point p) { // for floating point
     //     return (sign(x-p.x)==0 && sign(y-p.y)==0);
     // }
@@ -59,6 +62,14 @@ struct point{
         }
         else {
             return x<p.x;
+        }
+    }
+    bool operator>(point p) { // for integers point
+        if(x==p.x) {
+            return y>p.y;
+        }
+        else {
+            return x>p.x;
         }
     }
     // bool operator<(point p) { // for floating point
