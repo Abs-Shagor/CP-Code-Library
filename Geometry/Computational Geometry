@@ -289,6 +289,16 @@ vector<point> convex_Hull_point(vector<point>&vp) {
     }
     return ans;
 }
+pair<point,point> common_part_of_2_rectangle(point a, point b, point c,point d) {
+    point LL = {max(a.x,c.x),max(a.y,c.y)};//LL = Lower-Left point
+    point UR = {min(b.x,d.x),min(b.y,d.y)};//UR = Upper-Right point
+    if(LL.x<=UR.x && LL.y<=UR.y) {
+        return {LL,UR};
+    }
+    else {
+        return {{2,2},{1,1}}; // return (2,2) and (1,1) if there is no common portion
+    }
+}
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
