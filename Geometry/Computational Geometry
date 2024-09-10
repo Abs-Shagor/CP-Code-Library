@@ -1,20 +1,17 @@
 ///////////////// -> Computational Geometry <- //////////////
 ///------------------------------------------------------///
-
 #include<bits/stdc++.h>          // --> Bismillahir_ Rahmanir_ Rahim <--
 #define ll long long 
 using namespace std;
 
 // use long double for larger float number
 //#define double long double
-
 //#define lll __int128_t 
-
 #define pi acos(-1)
 
-// 1. precession check
+// precession check
 double eps = 1e-9;
-ll sign(double x) {
+ll sign(double x) {//Let 2 float number a and b. put the (a-b) in the sign function.
     if(fabs(x)<eps) {
         return 0; // both are equal.
     }
@@ -25,14 +22,13 @@ ll sign(double x) {
         return -1;// first one is smaller.
     }
 }
-// 2. Always think, point as a vector.
+// Always think, point as a vector.
 struct point{
     ll x,y;
     point(ll x=0, ll y=0) { // point p(x,y). here, p is the point name
         this -> x = x;
         this -> y = y;
     }
-
     // here, (x,y) is left point and p is right point.
     point operator+(point p) {
         return point(x+p.x, y+p.y);
@@ -104,7 +100,7 @@ ll orient(point A, point B, point C) {
     //                  > 0, then it will move from A -> B to C Anti-Clockwise (Left). 
     //                  < 0, then it will move from A -> B to C Clockwise(Right).
 }
-bool on_line(point A, point B, point P) {
+bool on_line(point A, point B, point P) {//check wether the point p is on the AB line or not
     if(orient(A,B,P)==0) {
         return true;
     }
@@ -112,7 +108,7 @@ bool on_line(point A, point B, point P) {
         return false;
     }
 }
-bool on_segment(point A, point B, point P) {
+bool on_segment(point A, point B, point P) {// check wether the point p is on the AB segment or not
     if(on_line(A,B,P)) {
         point AP = P-A;
         point BP = P-B;
@@ -127,7 +123,7 @@ bool on_segment(point A, point B, point P) {
         return false;
     }
 }
-bool intersect(point A, point B, point C, point D) { // segment AB and CD
+bool intersect(point A, point B, point C, point D) { // check wether the segment AB and CD intersect or not
     if(on_segment(A,B,C) || on_segment(A,B,D) || on_segment(C,D,A) || on_segment(C,D,B)) {
         return true;
     }
@@ -144,7 +140,7 @@ bool intersect(point A, point B, point C, point D) { // segment AB and CD
         }
     }
 }
-point intersection_point(point a, point b, point c, point d) {// intersection point of 2 segment
+point intersection_point(point a, point b, point c, point d) {// find the intersection point of segment ab and cd( make the point : double type)
     double a1 = a.y-b.y, b1 = b.x-a.x, c1 = cross(a,b);       // take point as double
     double a2 = c.y-d.y, b2 = d.x-c.x, c2 = cross(c,d);
     double det = a1*b2 - a2*b1;
@@ -245,7 +241,7 @@ ll polygon_point_check(vector<point>&vp,point P) { // for both Convex & Concave,
 /// a Point is called lattice point if it's x and y coordinate are integer.
 /// Let, two point are A and B. So, the slope of the two point is nothing but 
 /// how many move we do in x and y axis to reach from point A to point B.
-ll cnt_of_lattice_point_on_segment(point A, point B) {
+ll cnt_of_lattice_point_on_segment(point A, point B) {// lattice point mean integer coordiante
     ll xs = abs(B.x - A.x);
     ll ys = abs(B.y - A.y);
     return __gcd(xs,ys)+1;
@@ -266,7 +262,6 @@ ll cnt_of_lattice_point_inside_polygon(vector<point>&vp) {
     ll i = A+1-(b/2);
     return i;
 }
-
 vector<point> convex_Hull_point(vector<point>&vp) {
     ll n = vp.size();
     sort(vp.begin(),vp.end());
@@ -303,35 +298,11 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    // #1..............
-    double x = 3.323333;
-    double y = 3.323333;
-    if(sign(x-y)==0) {
-        cout << "equal" << "\n";
-    }
-    else if(sign(x-y)==1) {
-        cout << "x is greater then y" << "\n";
-    }
-    else {
-        cout << "x is smaller then y" << "\n";
-    }
+    // point p(1,1);
+    // point q(3,4);
 
-    // #2.................
-    point p(1,1);
-    point q(3,4);
-    point r(1,5);
-
-    point a = p+q;
-    point b = p-q;
-    point m = (p+q)/2;// mid point of point p and q
-    double c = p.len();// distance between origin(0,0) and point p.
-    double d = (p-q).len();// distance between point p and q.
-
-    cout << a.x << " " << a.y << "\n";
-    cout << b.x << " " << b.y << "\n";
-    cout << m.x << " " << m.y << "\n";
-    cout << c << "\n";
-    cout << d << "\n";
+    // double c = p.len();// distance between origin(0,0) and point p.
+    // double d = (p-q).len();// distance between point p and q.
 
     // Dot Product.
     // p' . q' = |p|*|q|*cos($)
@@ -339,8 +310,8 @@ int main() {
     // if p'.q' or dot(p,q) = 0, then, p and q are vertical.
     //                      > 0, they are in the same side.
     //                      < 0, they are in the different side.
-    double $ = acos( dot(p,q)/(p.len()*q.len()) );
-    cout << degree($) << endl;
+    // double $ = acos( dot(p,q)/(p.len()*q.len()) );
+    // cout << degree($) << endl;
 
     // Cross Product.
     // p' x q' = |p'|*|q'|*sin($)
@@ -350,19 +321,6 @@ int main() {
     //         < 0, anti-clockwise
     // p' x q' is nothing but the 2*area of the region(middle portion of p',q' and (p-q)')
     // so, the portion area = (p' x q')/2 (take the absolute value as it can +/-)
-
-    cout << cross(p,q);
-
-    // ll n; cin >> n;
-    // point a[n+7];
-    // for(ll i=1 ; i<=n ; i++) {
-    //     double x,y; cin >> x >> y;
-    //     a[i] = {x,y};
-    // }
-    // sort(a+1,a+n+1);
-    // for(ll i=1 ; i<=n ; i++) {
-    //     cout << a[i].x << " " << a[i].y << endl;
-    // }
 
     return 0;
 }
