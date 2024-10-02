@@ -1,3 +1,6 @@
+
+// Problem: SPOJ DQUERY
+
 #include<bits/stdc++.h>          // --> Bismillahir_ Rahmanir_ Rahim <--
 #define ll long long 
 using namespace std;
