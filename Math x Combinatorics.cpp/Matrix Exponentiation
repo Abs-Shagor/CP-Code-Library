@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>          // --> Bismillahir_ Rahmanir_ Rahim <--
+#define ll long long 
+using namespace std;
+
+const ll MOD = 1000000007;
+struct Matrix {
+    ll rows, cols;
+    vector<vector<ll>> mat;
+    Matrix(ll r, ll c) : rows(r), cols(c) {
+        mat.assign(r, vector<ll>(c, 0));
+    }
+    static inline Matrix multiply(const Matrix &A,const Matrix &B) {
+        ll r = A.rows, c = B.cols, n = A.cols;
+        Matrix result(r, c);
+        for (ll i = 0; i < r; i++) {
+            for (ll j = 0; j < c; j++) {
+                for (ll k = 0; k < n; k++) {
+                    result.mat[i][j] =(result.mat[i][j] + A.mat[i][k] * B.mat[k][j])% MOD;
+                }
+            }
+        }
+        return result;
+    }
+    static inline Matrix power(Matrix base, ll exp) {
+        Matrix result(base.rows, base.cols);
+        for (ll i = 0; i < base.rows; i++) {
+            result.mat[i][i] = 1;
+        }
+        while (exp > 0) {
+            if (exp % 2 == 1)
+                result = multiply(result, base);
+                base = multiply(base, base);
+                exp /= 2;
+            }
+            return result;
+    }
+    void display() const {
+        for (ll i = 0; i < rows; i++) {
+            for (ll j = 0; j < cols; j++) {
+                cout << mat[i][j] << " ";
+            }
+            cout << "\n";
+        }
+    }
+};
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    ll n; cin >> n;
+    Matrix M(2, 2), F(2, 1);
+    M.mat = {{0, 1}, {1, 1}};
+    F.mat = {{0}, {1}};
+    M = Matrix::power(M, n);
+    Matrix Result = Matrix::multiply(M, F);
+    //Result.display();
+
+    cout << Result.mat[0][0] << "\n";
+
+return 0;
+}
