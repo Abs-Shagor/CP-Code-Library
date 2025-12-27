@@ -9,7 +9,6 @@
 | **CSES** | [AbsShagor56](https://cses.fi/user/82904) | 70+ | N/A | 
 | **LeetCode** | [AbsShagor56](https://leetcode.com/AbsShagor56) | 50+ | 1608 (Top 21%) | 
 | **LightOJ** | [AbsShagor56](https://lightoj.com/user/abs_shagor99) | 40+ | N/A | 
-| **...** | | **...** | **...** | 
-| **...** | | **...** | **...** | 
+| **.....** | **.....**| **.....** | **.....** | 
 | **Total** | | **2000+** | | 
 
